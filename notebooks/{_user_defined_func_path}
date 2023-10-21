@@ -1,0 +1,38 @@
+
+import numpy as np
+from scipy.special import logit
+
+
+def calculate_price(x, y, dx, dy, time_to_maturity, maturity_length) -> float:
+    tau = time_to_maturity
+
+    r_star = 0.05
+    kappa = 0.02
+
+    alpha = 1 / (1 + tau * kappa)
+    Br = np.exp(-r_star * tau)
+
+#     r0 = r_star * alpha + kappa * alpha * np.log(x / y)
+
+    if dx != 0:
+        new_x = x + dx
+        new_y = (c2 - (Br * new_x) ** alpha) ** (1 / alpha)
+        dy = new_y - y
+    elif dy != 0:
+        new_y = y + dy
+        new_x = (c2 - new_y ** alpha) ** (1 / alpha) / Br
+        dx = new_x - x
+
+    if abs((x * Br) ** alpha + y ** alpha - ((x + dx) * Br) ** alpha - (y + dy) ** alpha) > 0.00001:
+        raise Exception('Something wrong with ODE!')
+
+    if abs(logit(x * np.exp(-r0 * tau) / (x * np.exp(-r0 * tau) + y)) * kappa + r_star - r0) > 0.00001:
+        raise Exception('R0 not match!')
+
+    if dx == 0 and dy == 0:
+        dy = -np.exp(-tau * r0)
+        dx = 1
+
+    price = abs(dy / dx)
+
+    return price
