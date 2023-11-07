@@ -2,9 +2,15 @@
 *.csv
 *.xlsx
 *.bkp
+*.png
+
 .trash/
 .idea/
+
 data/
+images/
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
