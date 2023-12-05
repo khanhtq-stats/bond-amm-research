@@ -3,6 +3,8 @@
 *.xlsx
 *.bkp
 *.png
+*.rar
+*.zip
 
 .trash/
 .idea/
